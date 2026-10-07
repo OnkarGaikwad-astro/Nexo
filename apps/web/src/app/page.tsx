@@ -25,6 +25,7 @@ export default function Home() {
   const [latestScreenshot, setLatestScreenshot] = useState<string | null>(null);
   const [stats, setStats] = useState({ total_tasks: 0, completed_tasks: 0, success_rate: '100%' });
   const timelineEndRef = useRef<HTMLDivElement>(null);
+  const activeTaskIdRef = useRef<number | null>(null);
 
   // Fetch initial stats & check for any recent tasks
   useEffect(() => {
@@ -54,6 +55,11 @@ export default function Home() {
         try {
           const data = JSON.parse(e.data);
           if (data.event === 'PING') return;
+
+          // If event belongs to a different task than what was actively initiated, ignore it
+          if (data.task_id && activeTaskIdRef.current && data.task_id !== activeTaskIdRef.current) {
+            return;
+          }
 
           if (data.event === 'STEP') {
             setStatus(data.state as any);
@@ -142,6 +148,7 @@ export default function Home() {
       });
       const taskData = await createRes.json();
       setActiveTaskId(taskData.id);
+      activeTaskIdRef.current = taskData.id;
 
       // 2. Trigger Task Execution
       await fetch(`${API_BASE_URL}/api/tasks/${taskData.id}/run`, {
@@ -160,9 +167,11 @@ export default function Home() {
   };
 
   const quickPrompts = [
-    "Find latest Acme invoice and enter it into Finance portal",
-    "Process pending invoices for Acme Corp from Document Center",
-    "Extract Acme Corp INV-2048 details and record to accounting"
+    "Find latest XYZ Ltd invoice and enter it into Finance portal",
+    "Extract Nova Systems invoice INV-5521 and enter into Finance portal",
+    "Find latest Acme Corp invoice and enter it into Finance portal",
+    "Process invoice INV-2039 from Document Center",
+    "Process pending invoices for XYZ Ltd"
   ];
 
   const getStatusColor = (s: string) => {
@@ -354,7 +363,7 @@ export default function Home() {
               Execution Timeline
             </h3>
             <span className="text-xs font-semibold text-[#5C7F9B] bg-white/40 px-2.5 py-1 rounded-full">
-              {steps.length} {steps.length === 1 ? 'Step' : 'Steps'} Recorded
+              {activeTaskId ? `Task #${activeTaskId} • ` : ''}{steps.length} {steps.length === 1 ? 'Step' : 'Steps'} Recorded
             </span>
           </div>
           <p className="text-xs text-[#5C7F9B] mb-4">Real-time trace of cognitive reasoning and tool execution</p>

@@ -20,7 +20,13 @@ class BrowserTool:
     async def navigate(self, url: str):
         if not self.page:
             await self.start()
-        await self.page.goto(url, wait_until="networkidle")
+        try:
+            await self.page.goto(url, wait_until="domcontentloaded", timeout=12000)
+        except Exception:
+            try:
+                await self.page.goto(url, wait_until="load", timeout=8000)
+            except Exception:
+                pass
         return f"Navigated to {url}"
 
     async def extract_text(self):
@@ -55,6 +61,28 @@ class BrowserTool:
         except Exception:
             return ""
         return ""
+
+    async def evaluate(self, script: str):
+        if not self.page:
+            return None
+        try:
+            return await self.page.evaluate(script)
+        except Exception:
+            return None
+
+    async def click_matching_text(self, selector: str, text: str) -> bool:
+        if not self.page:
+            return False
+        try:
+            elements = await self.page.query_selector_all(selector)
+            for el in elements:
+                t = await el.inner_text()
+                if text.lower() in t.lower():
+                    await el.click()
+                    return True
+        except Exception:
+            pass
+        return False
 
     async def screenshot_base64(self) -> str:
         if not self.page:

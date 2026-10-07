@@ -32,7 +32,8 @@ events_queue = asyncio.Queue()
 def execute_agent_sync(task_id: int):
     """Spawns an isolated Python process to run Playwright safely on Windows."""
     backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    python_exe = sys.executable
+    venv_py = os.path.join(backend_dir, "venv", "Scripts", "python.exe")
+    python_exe = venv_py if os.path.exists(venv_py) else sys.executable
     script_path = os.path.join(backend_dir, "app", "run_browser.py")
     
     cmd = [python_exe, script_path, "--task-id", str(task_id)]
