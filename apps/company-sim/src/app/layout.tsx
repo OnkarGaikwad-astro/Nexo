@@ -6,7 +6,10 @@ import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Company Portal",
+  title: "Acme Corporation - Internal Systems Portal",
+  icons: {
+    icon: "/nexo-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

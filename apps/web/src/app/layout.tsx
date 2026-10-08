@@ -8,6 +8,13 @@ const josefin = Josefin_Sans({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Nexo - Autonomous AI Task Worker",
   description: "From Intent to Execution",
+  icons: {
+    icon: [
+      { url: "/nexo-icon.png", type: "image/png" },
+    ],
+    shortcut: "/nexo-icon.png",
+    apple: "/nexo-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
