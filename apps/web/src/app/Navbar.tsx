@@ -16,9 +16,7 @@ export default function Navbar() {
     <header className="flex justify-between items-center px-10 py-5 w-full">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white bg-[#447A9C] shadow-sm text-sm">
-          N
-        </div>
+        <img src="/nexo-icon.png" alt="Nexo Icon" className="w-8 h-8 rounded-lg shadow-xs object-cover" />
         <div>
           <span className="font-bold text-xl tracking-wide text-[#2A4B61]">NEXO</span>
           <span className="hidden sm:inline-block ml-2 text-xs font-semibold text-[#5C7F9B]">Autonomous Task Worker</span>

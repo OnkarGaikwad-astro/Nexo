@@ -327,9 +327,7 @@ export default function Home() {
       <div className="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-sm" style={cardStyle}>
         <div>
           <div className="flex items-center gap-3">
-            <span className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white bg-[#447A9C] shadow-sm text-sm">
-              N
-            </span>
+            <img src="/nexo-icon.png" alt="Nexo Icon" className="w-8 h-8 rounded-lg shadow-xs object-cover" />
             <h1 className="text-2xl font-bold text-[#2A4B61] tracking-wide">
               NEXO <span className="text-base font-medium text-[#5C7F9B]">| Autonomous AI Task Worker</span>
             </h1>

@@ -1,6 +1,8 @@
-# NEXO: Autonomous Enterprise AI Task Worker
-
 <div align="center">
+
+<img src="./assets/nexo-icon.png" width="130" height="130" alt="NEXO Logo Icon" style="border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);" />
+
+# NEXO: Autonomous Enterprise AI Task Worker
 
 **From Intent to Execution.**  
 *An autonomous AI worker that deconstructs high-level objectives, operates internal company systems, and independently audits and verifies tangible business deliverables.*
