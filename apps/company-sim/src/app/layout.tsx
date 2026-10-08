@@ -21,9 +21,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
             {/* Left Brand & Portal Navigation */}
             <div className="flex items-center gap-4 flex-wrap">
-              <Link href="/" className="flex items-center gap-2 group shrink-0">
-                <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-white text-sm shadow-sm group-hover:bg-indigo-500 transition-colors">
-                  A
+              <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+                <div className="w-7 h-7 flex items-center justify-center shrink-0">
+                  <svg className="w-6 h-6 text-indigo-400 group-hover:text-indigo-300 transition-all" viewBox="0 0 24 24" fill="none">
+                    <path 
+                      d="M12 2.5L2.5 20h19L12 2.5Z" 
+                      fill="url(#acme-grad)" 
+                      stroke="#818CF8" 
+                      strokeWidth="1.8" 
+                      strokeLinejoin="round"
+                    />
+                    <path 
+                      d="M7.2 14.5h9.6" 
+                      stroke="#FFFFFF" 
+                      strokeWidth="2.2" 
+                      strokeLinecap="round"
+                    />
+                    <defs>
+                      <linearGradient id="acme-grad" x1="12" y1="2.5" x2="12" y2="20" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#6366F1" stopOpacity="0.45"/>
+                        <stop stopColor="#4F46E5" stopOpacity="0.85"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
                 <div className="flex flex-col">
                   <span className="font-extrabold text-sm tracking-tight text-white group-hover:text-indigo-300 transition-colors leading-tight">
