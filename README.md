@@ -199,6 +199,45 @@ npm run dev -- -p 3000
 
 ---
 
+## 🐳 1-Command Docker Deployment (Recommended)
+
+NEXO provides complete container definitions for all 3 services (`backend`, `company-sim`, `web`):
+
+```bash
+# 1. Provide your free Groq API key
+echo "GROQ_API_KEY=your_key_here" >> backend/.env
+
+# 2. Build and launch entire stack
+docker compose up --build -d
+```
+
+- **Web Operations Console**: `http://localhost:3000`
+- **Acme Corporation Portal**: `http://localhost:3001`
+- **FastAPI Engine**: `http://localhost:8000`
+
+---
+
+## ☁️ Cloud Deployment Guide
+
+| Platform | Deployment Model | Recommended For |
+| :--- | :--- | :--- |
+| **Docker Compose / VPS** | DigitalOcean Droplet, Hetzner, AWS EC2 | **Production & Live Demos (Full Control)** |
+| **Railway / Render** | Container Web Service for Backend + Static/Node for Frontends | **Quick 1-Click Cloud Hosting** |
+| **Vercel + Cloud VM** | Vercel for `apps/web` & `apps/company-sim`, Cloud VM for `backend` | **Hybrid Edge Performance** |
+
+### Deploying Backend with Playwright on Cloud (Render / Railway / Fly.io)
+When deploying the `backend` to container-based hosts:
+1. Connect your GitHub repository.
+2. Set Root Directory to `backend`.
+3. Select **Dockerfile** as build method.
+4. Add environment variables:
+   - `GROQ_API_KEY`: Your Groq API key
+   - `COGNITIVE_MODEL`: `llama-3.3-70b-versatile`
+   - `SIM_APP_URL`: The public or private URL of the company simulator.
+5. Deploy! Playwright Chromium and dependencies are automatically provisioned.
+
+---
+
 ## 🧪 Testing & Verification Suite
 
 NEXO features an automated verification suite validating API endpoints, cross-system ReAct loops, duplicate invoice error recovery, and human-in-the-loop approval gates.

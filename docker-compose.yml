@@ -1,0 +1,60 @@
+services:
+  # 1. FastAPI Autonomous Agent Engine
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nexo-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - COGNITIVE_MODEL=${COGNITIVE_MODEL:-llama-3.3-70b-versatile}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - TAVILY_API_KEY=${TAVILY_API_KEY:-}
+      - SMTP_EMAIL=${SMTP_EMAIL:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SIM_APP_URL=http://company-sim:3001
+      - API_URL=http://backend:8000
+    volumes:
+      - nexo-data:/app/data
+    networks:
+      - nexo-network
+
+  # 2. Acme Corporation Simulated Enterprise Suite
+  company-sim:
+    build:
+      context: ./apps/company-sim
+      dockerfile: Dockerfile
+    container_name: nexo-company-sim
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - nexo-network
+
+  # 3. NEXO Web Operations Console
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: nexo-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_SIM_URL=http://localhost:3001
+    depends_on:
+      - backend
+      - company-sim
+    networks:
+      - nexo-network
+
+networks:
+  nexo-network:
+    driver: bridge
+
+volumes:
+  nexo-data:
