@@ -1,3 +1,5 @@
+import os
+import sys
 from playwright.async_api import async_playwright
 import asyncio
 import base64
@@ -10,10 +12,38 @@ class BrowserTool:
 
     async def start(self):
         self.playwright = await async_playwright().start()
-        # Responsive window size that adapts comfortably to desktop and fits preview ratio
+
+        # Headless Configuration:
+        # 1. Explicit env var HEADLESS (true/false)
+        # 2. Auto-detect: if on Linux without a display server or in cloud container, run headless
+        headless_env = os.getenv("HEADLESS", "").strip().lower()
+        if headless_env in ("true", "1", "yes"):
+            headless = True
+        elif headless_env in ("false", "0", "no"):
+            headless = False
+        else:
+            is_linux = sys.platform.startswith("linux")
+            has_display = bool(os.getenv("DISPLAY"))
+            is_cloud = bool(
+                os.getenv("RENDER")
+                or os.getenv("RAILWAY_ENVIRONMENT")
+                or os.getenv("FLY_APP_NAME")
+                or os.path.exists("/.dockerenv")
+            )
+            headless = (is_linux and not has_display) or is_cloud
+
+        # Launch arguments robust across Windows, Mac, and Linux/Docker cloud containers
+        args = [
+            "--window-size=1024,680",
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-gpu",
+        ]
+
         self.browser = await self.playwright.chromium.launch(
-            headless=False,
-            args=["--window-size=1024,680"]
+            headless=headless,
+            args=args
         )
         self.page = await self.browser.new_page(viewport={"width": 1000, "height": 620})
 

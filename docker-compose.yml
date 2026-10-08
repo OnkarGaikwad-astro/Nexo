@@ -17,6 +17,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD:-}
       - SIM_APP_URL=http://company-sim:3001
       - API_URL=http://backend:8000
+      - HEADLESS=true
     volumes:
       - nexo-data:/app/data
     networks:
