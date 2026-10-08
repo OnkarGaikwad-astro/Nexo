@@ -10,12 +10,12 @@ class BrowserTool:
 
     async def start(self):
         self.playwright = await async_playwright().start()
-        # Headless=False so the user can visually see the agent navigating
+        # Responsive window size that adapts comfortably to desktop and fits preview ratio
         self.browser = await self.playwright.chromium.launch(
             headless=False,
-            args=["--window-size=1280,800"]
+            args=["--window-size=1024,680"]
         )
-        self.page = await self.browser.new_page(viewport={"width": 1280, "height": 800})
+        self.page = await self.browser.new_page(viewport={"width": 1000, "height": 620})
 
     async def navigate(self, url: str):
         if not self.page:
@@ -84,14 +84,82 @@ class BrowserTool:
             pass
         return False
 
+    async def get_interactive_elements(self):
+        """Scans active DOM for interactive elements (buttons, inputs, links, rows) with selectors."""
+        if not self.page:
+            return []
+        try:
+            return await self.page.evaluate(r"""
+                () => {
+                    const items = [];
+                    const elements = document.querySelectorAll('button, a[href], input, select, textarea, [role="button"], tr[id], [data-invoice]');
+                    elements.forEach((el, idx) => {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.width > 0 && rect.height > 0 && window.getComputedStyle(el).display !== 'none') {
+                            const tag = el.tagName.toLowerCase();
+                            let selector = '';
+                            if (el.id) {
+                                selector = '#' + el.id;
+                            } else if (el.name) {
+                                selector = `${tag}[name="${el.name}"]`;
+                            } else if (el.getAttribute('data-invoice')) {
+                                selector = `tr[data-invoice="${el.getAttribute('data-invoice')}"]`;
+                            } else {
+                                selector = `${tag}:nth-of-type(${idx + 1})`;
+                            }
+                            
+                            const text = (el.innerText || el.getAttribute('placeholder') || el.getAttribute('aria-label') || el.value || '').trim().replace(/\s+/g, ' ').substring(0, 50);
+                            items.push({
+                                tag,
+                                type: el.getAttribute('type') || tag,
+                                selector,
+                                text,
+                                value: el.value || ''
+                            });
+                        }
+                    });
+                    return items.slice(0, 40);
+                }
+            """)
+        except Exception:
+            return []
+
     async def screenshot_base64(self) -> str:
         if not self.page:
             return ""
         try:
-            screenshot_bytes = await self.page.screenshot(type="jpeg", quality=60)
+            # Dynamically adapt screenshot height to content bounds instead of full empty desktop
+            content_bottom = await self.page.evaluate(r"""
+                () => {
+                    let maxBottom = 260;
+                    const contentNodes = document.querySelectorAll('table, form, tr, .bg-white, main > * > *');
+                    contentNodes.forEach(el => {
+                        const r = el.getBoundingClientRect();
+                        if (r.height > 10 && r.bottom > maxBottom && r.bottom < 1500) {
+                            maxBottom = r.bottom;
+                        }
+                    });
+                    return Math.ceil(maxBottom);
+                }
+            """)
+            viewport_w = self.page.viewport_size["width"] if self.page.viewport_size else 1000
+            viewport_h = self.page.viewport_size["height"] if self.page.viewport_size else 620
+            
+            # Clip between min 340px and viewport_h with 16px bottom padding
+            target_h = max(340, min(int(content_bottom or viewport_h) + 16, viewport_h))
+            
+            screenshot_bytes = await self.page.screenshot(
+                type="jpeg",
+                quality=75,
+                clip={"x": 0, "y": 0, "width": viewport_w, "height": target_h}
+            )
             return base64.b64encode(screenshot_bytes).decode("utf-8")
         except Exception:
-            return ""
+            try:
+                screenshot_bytes = await self.page.screenshot(type="jpeg", quality=60)
+                return base64.b64encode(screenshot_bytes).decode("utf-8")
+            except Exception:
+                return ""
 
     async def close(self):
         if self.page:

@@ -16,10 +16,13 @@ export default function Navbar() {
     <header className="flex justify-between items-center px-10 py-5 w-full">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white bg-[#447A9C] shadow-sm">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white bg-[#447A9C] shadow-sm text-sm">
           N
         </div>
-        <span className="font-bold text-xl tracking-wide text-[#2A4B61]">NEXO</span>
+        <div>
+          <span className="font-bold text-xl tracking-wide text-[#2A4B61]">NEXO</span>
+          <span className="hidden sm:inline-block ml-2 text-xs font-semibold text-[#5C7F9B]">Autonomous Task Worker</span>
+        </div>
       </Link>
 
       {/* Navigation Links */}
@@ -51,18 +54,11 @@ export default function Navbar() {
       </nav>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-4">
-        <span className="text-xs font-bold text-[#10B981] bg-emerald-100/80 px-3 py-1 rounded-full border border-emerald-300/40">
-          ● Autonomous Agent
+      <div className="flex items-center gap-3">
+        <span className="text-xs font-bold text-[#10B981] bg-emerald-100/90 px-3 py-1 rounded-full border border-emerald-300/40 flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Acme AI Operator
         </span>
-        <div
-          className="w-9 h-9 rounded-full border bg-[#447A9C] text-white flex items-center justify-center shadow-sm"
-          style={{ borderColor: 'rgba(141, 190, 222, 0.60)' }}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-          </svg>
-        </div>
       </div>
     </header>
   );
