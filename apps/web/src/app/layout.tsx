@@ -10,9 +10,11 @@ export const metadata: Metadata = {
   description: "From Intent to Execution",
   icons: {
     icon: [
-      { url: "/nexo-icon.png", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/nexo-icon.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/nexo-icon.png",
+    shortcut: "/favicon.ico",
     apple: "/nexo-icon.png",
   },
 };

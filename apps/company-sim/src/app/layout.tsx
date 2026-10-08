@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Acme Corporation - Internal Systems Portal",
   icons: {
-    icon: "/nexo-icon.png",
+    icon: "/favicon.ico",
   },
 };
 
