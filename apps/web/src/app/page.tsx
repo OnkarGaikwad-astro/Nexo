@@ -783,11 +783,19 @@ export default function Home() {
               {/* Browser display body */}
               <div className="relative bg-slate-50 flex flex-col items-center justify-start overflow-hidden w-full h-[185px] transition-all">
                 {browserViewMode === 'interactive' ? (
-                  <iframe 
-                    src={currentUrl} 
-                    title="Live App Preview" 
-                    className="w-full h-full border-0 bg-white"
-                  />
+                  <div className="w-full h-full overflow-hidden relative bg-white">
+                    <iframe 
+                      src={currentUrl} 
+                      title="Live App Preview" 
+                      className="border-0 bg-white absolute top-0 left-0"
+                      style={{
+                        width: '200%',
+                        height: '200%',
+                        transform: 'scale(0.5)',
+                        transformOrigin: '0 0',
+                      }}
+                    />
+                  </div>
                 ) : latestScreenshot ? (
                   <div className="w-full h-full flex items-center justify-center bg-slate-100 overflow-hidden">
                     <img 
@@ -798,11 +806,19 @@ export default function Home() {
                     />
                   </div>
                 ) : (currentUrl.includes('localhost') || currentUrl.includes('127.0.0.1')) && status !== 'READY' ? (
-                  <iframe 
-                    src={currentUrl} 
-                    title="Live App Preview" 
-                    className="w-full h-full border-0 bg-white"
-                  />
+                  <div className="w-full h-full overflow-hidden relative bg-white">
+                    <iframe 
+                      src={currentUrl} 
+                      title="Live App Preview" 
+                      className="border-0 bg-white absolute top-0 left-0"
+                      style={{
+                        width: '200%',
+                        height: '200%',
+                        transform: 'scale(0.5)',
+                        transformOrigin: '0 0',
+                      }}
+                    />
+                  </div>
                 ) : status !== 'READY' ? (
                   <div className="flex flex-col items-center justify-center p-4 text-center text-[#5C7F9B] w-full h-full bg-slate-50">
                     <div className="w-9 h-9 rounded-full bg-blue-50 text-[#447A9C] flex items-center justify-center mb-1.5 text-base">

@@ -63,24 +63,24 @@ export default function Home() {
   return (
     <div className="py-2">
       {/* Executive Header */}
-      <div className="mb-8 p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="mb-4 p-4 rounded-xl bg-white border border-slate-200/90 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200/60 px-3 py-1 rounded-full">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[11px] font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200/60 px-2.5 py-0.5 rounded-full">
               Enterprise Simulation Platform
             </span>
-            <span className="text-xs font-bold text-slate-500">• Port 3001 Isolated</span>
+            <span className="text-[11px] font-bold text-slate-500">• Port 3001 Isolated</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">
             Acme Corporation Business Applications
           </h1>
-          <p className="text-slate-600 text-sm mt-1 max-w-2xl font-medium leading-relaxed">
+          <p className="text-slate-600 text-xs mt-0.5 max-w-2xl font-medium leading-relaxed">
             Stateful company infrastructure automated by NEXO. Every portal maintains realistic data schemas, verified IDs, and Playwright automation hooks.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start md:self-auto">
-          <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-300 text-xs font-bold text-slate-700">
+        <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
+          <span className="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-300 text-xs font-bold text-slate-700">
             Automated by NEXO
           </span>
         </div>
