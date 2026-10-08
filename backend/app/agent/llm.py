@@ -4,6 +4,7 @@ import re
 from typing import Optional, Dict, Any, List
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
+from app.config import get_sim_url
 
 load_dotenv()
 
@@ -52,6 +53,7 @@ async def plan_goal_with_llm(goal: str, context: Optional[Dict[str, Any]] = None
     Falls back gracefully to deterministic cognitive synthesis if no API key is provided."""
     client = get_llm_client()
     _, _, model = get_llm_config()
+    sim_url = get_sim_url()
     
     if client and model:
         try:
@@ -60,10 +62,10 @@ Goal: "{goal}"
 Context: {json.dumps(context or {})}
 
 Portals available:
-1. Corporate Email (http://localhost:3001/email): compose, draft, send (requires supervisor approval), audit sent messages, audit drafts.
-2. Client CRM (http://localhost:3001/crm): directory search, contact accounts, outstanding client invoices.
-3. Finance Accounting (http://localhost:3001/finance): record invoice, detect duplicate entries, audit ledger.
-4. Document Center (http://localhost:3001/documents): document repository, invoice viewer.
+1. Corporate Email ({sim_url}/email): compose, draft, send (requires supervisor approval), audit sent messages, audit drafts.
+2. Client CRM ({sim_url}/crm): directory search, contact accounts, outstanding client invoices.
+3. Finance Accounting ({sim_url}/finance): record invoice, detect duplicate entries, audit ledger.
+4. Document Center ({sim_url}/documents): document repository, invoice viewer.
 
 Return a valid JSON object with keys:
 - "reasoning": "brief cognitive chain-of-thought analysis of what needs to be done",
@@ -131,7 +133,7 @@ Return a valid JSON object with keys:
             f"Agent will access Email Portal, prepare communication, request human supervisor approval if sending, and audit output."
         )
         plan = [
-            f"1. Open Chromium browser session and navigate to Corporate Email (http://localhost:3001/email)",
+            f"1. Open Chromium browser session and navigate to Corporate Email ({sim_url}/email)",
             f"2. Access Compose, Sent, or Drafts tab as requested",
             f"3. Populate recipient, subject, and message content",
             f"4. If sending, pause at supervisor approval gate before transmission",
@@ -144,7 +146,7 @@ Return a valid JSON object with keys:
             f"Agent will access CRM directory, locate client file, and audit account data."
         )
         plan = [
-            f"1. Open Chromium browser session and navigate to Client CRM (http://localhost:3001/crm)",
+            f"1. Open Chromium browser session and navigate to Client CRM ({sim_url}/crm)",
             f"2. Search directory for '{target_comp}'",
             f"3. Open client detail drawer and extract contact email, status, and outstanding invoices",
             f"4. Record verified CRM profile evidence"
@@ -156,7 +158,7 @@ Return a valid JSON object with keys:
             f"Workflow will interact with ledger and verify record persistence."
         )
         plan = [
-            f"1. Open Chromium browser session and access Finance Portal (http://localhost:3001/finance)",
+            f"1. Open Chromium browser session and access Finance Portal ({sim_url}/finance)",
             f"2. Inspect ledger and populate invoice entry form",
             f"3. Check for duplicate warning banners and adapt if already recorded",
             f"4. Submit transaction and independently verify DOM confirmation banner"
@@ -169,7 +171,7 @@ Return a valid JSON object with keys:
             f"extracting invoice metadata in Document Center, and returning the result without touching the Finance portal."
         )
         plan = [
-            f"1. Open Chromium browser session and access Document Center (http://localhost:3001/documents)",
+            f"1. Open Chromium browser session and access Document Center ({sim_url}/documents)",
             f"2. Locate matching invoice record for '{target_comp}'",
             f"3. Open Document Viewer and inspect live metadata (Invoice #, Amount, Due Date)",
             f"4. Confirm and report retrieved document details without touching Finance portal"

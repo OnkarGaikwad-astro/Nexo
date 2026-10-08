@@ -1,8 +1,9 @@
 import os
 from typing import Dict, Any, List, Optional
+from app.config import get_sim_url
 from app.agent.tools.base import ToolDefinition, ToolObservation
 
-SIM_URL = os.getenv("COMPANY_SIM_URL", "http://localhost:3001")
+SIM_URL = get_sim_url()
 
 ALL_TOOLS: List[ToolDefinition] = [
     # Document Tools

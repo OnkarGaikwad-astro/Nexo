@@ -532,7 +532,7 @@ export default function Home() {
             <div className="pt-2 border-t border-[rgba(141,190,222,0.25)] flex items-center justify-between text-[10px] text-[#5C7F9B]">
               <span className="flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                Port 3001 Isolated
+                {SIM_BASE_URL.includes('localhost') ? 'Port 3001 Isolated' : 'Sandbox Isolated'}
               </span>
               <span className="font-semibold text-[#447A9C]">Zero-Leakage Active</span>
             </div>
@@ -775,7 +775,7 @@ export default function Home() {
                     <span className="truncate">{currentUrl}</span>
                   </div>
                   <span className="text-[9px] font-bold text-[#447A9C] bg-[rgba(141,190,222,0.2)] px-1.5 rounded shrink-0 ml-1">
-                    Port 3001
+                    {SIM_BASE_URL.includes('localhost') ? 'Port 3001' : 'Sandbox'}
                   </span>
                 </div>
               </div>

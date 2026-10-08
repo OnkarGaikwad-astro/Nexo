@@ -20,12 +20,16 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-API_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-SIM_URL = os.getenv("COMPANY_SIM_URL", "http://localhost:3001")
+from app.config import get_sim_url, get_backend_url
+
+API_URL = get_backend_url()
+SIM_URL = get_sim_url()
 
 class NexoAgent:
     def __init__(self, task_id: int):
         self.task_id = task_id
+        self.api_url = get_backend_url()
+        self.sim_url = get_sim_url()
         self.browser_tool = BrowserTool()
         self.db = SessionLocal()
         self.memory: Dict[str, Any] = {
@@ -998,7 +1002,12 @@ class NexoAgent:
                 url=doc_url
             )
             await self.browser_tool.navigate(doc_url)
-            await asyncio.sleep(1.2)
+            # Wait for table rows to be present in DOM (handles remote cloud latency)
+            try:
+                if self.browser_tool.page:
+                    await self.browser_tool.page.wait_for_selector("#documents-table tbody tr", timeout=10000)
+            except Exception:
+                await asyncio.sleep(1.5)
 
             await self.emit_step(
                 state="OBSERVE",

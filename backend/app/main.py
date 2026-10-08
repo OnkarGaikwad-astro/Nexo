@@ -9,6 +9,7 @@ import sys
 import os
 import json
 from app import database, models
+from app.config import get_sim_url
 from sse_starlette.sse import EventSourceResponse
 
 from sqlalchemy import text
@@ -216,7 +217,7 @@ def seed_initial_memory_if_empty(db: Session):
             db.commit()
 
         if db.query(models.MemorySchema).count() == 0:
-            sim_url = os.getenv("SIM_URL", "http://localhost:3001")
+            sim_url = get_sim_url()
             default_schemas = [
                 models.MemorySchema(
                     portal="Document Center",
