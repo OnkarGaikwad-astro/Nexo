@@ -72,124 +72,161 @@ export default function CRMPage() {
   const [selectedClient, setSelectedClient] = useState<ClientItem>(clients[0]);
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
+    <div className="py-2">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-[#171923]">Client & CRM Management</h1>
-          <p className="text-sm text-gray-500 mt-1">Acme Corporation corporate accounts, billing contacts, and CRM interactions</p>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-black uppercase tracking-wider text-purple-800 bg-purple-100 border border-purple-300 px-2.5 py-0.5 rounded-full">
+              CRM & Directory
+            </span>
+            <span className="text-xs font-bold text-slate-500">4 Accounts Registered</span>
+          </div>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Client & CRM Management</h1>
+          <p className="text-sm font-medium text-slate-600 mt-1">
+            Acme Corporation corporate accounts, billing contacts, and CRM interactions.
+          </p>
         </div>
-        <div className="w-72">
+
+        <div className="w-full md:w-80">
           <input
             id="crm-search-input"
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search clients by name, company, email..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#5B5FEF]"
+            className="w-full bg-white border-2 border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all shadow-2xs"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Clients Table */}
-        <div className="lg:col-span-2 bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full" id="clients-table">
-            <thead className="bg-[#F4F1EA]">
+        <div className="lg:col-span-7 bg-white rounded-2xl shadow-sm border-2 border-slate-200/90 overflow-hidden">
+          <table className="min-w-full divide-y divide-slate-200" id="clients-table">
+            <thead className="bg-slate-100 border-b-2 border-slate-300">
               <tr>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client / Contact</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Company</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Outstanding</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                <th className="px-5 py-3.5 text-left text-xs font-extrabold text-slate-800 uppercase tracking-wider">Client / Contact</th>
+                <th className="px-5 py-3.5 text-left text-xs font-extrabold text-slate-800 uppercase tracking-wider">Company</th>
+                <th className="px-5 py-3.5 text-left text-xs font-extrabold text-slate-800 uppercase tracking-wider">Email</th>
+                <th className="px-5 py-3.5 text-left text-xs font-extrabold text-slate-800 uppercase tracking-wider">Unpaid</th>
+                <th className="px-5 py-3.5 text-right text-xs font-extrabold text-slate-800 uppercase tracking-wider">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {filteredClients.map((c, idx) => (
-                <tr 
-                  key={c.id} 
-                  id={`client-row-${idx}`}
-                  data-client-id={c.id}
-                  data-company={c.company}
-                  data-email={c.email}
-                  className={selectedClient.id === c.id ? 'bg-indigo-50/50' : 'hover:bg-gray-50'}
-                >
-                  <td className="px-5 py-4 text-sm font-semibold text-gray-900 client-name">
-                    {c.name}
-                  </td>
-                  <td className="px-5 py-4 text-sm text-gray-700 client-company font-medium">
-                    {c.company}
-                  </td>
-                  <td className="px-5 py-4 text-xs font-mono text-gray-600 client-email">
-                    {c.email}
-                  </td>
-                  <td className="px-5 py-4 text-xs font-bold text-amber-700">
-                    {c.totalUnpaidAmount}
-                  </td>
-                  <td className="px-5 py-4 text-sm">
-                    <button
-                      id={`view-client-${idx}`}
-                      onClick={() => setSelectedClient(c)}
-                      className="px-3 py-1 bg-[#5B5FEF] hover:bg-[#474BD9] text-white text-xs font-medium rounded transition"
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
+            <tbody className="divide-y divide-slate-200 bg-white">
+              {filteredClients.map((c, idx) => {
+                const isSelected = selectedClient.id === c.id;
+                return (
+                  <tr 
+                    key={c.id} 
+                    id={`client-row-${idx}`}
+                    data-client-id={c.id}
+                    data-company={c.company}
+                    data-email={c.email}
+                    onClick={() => setSelectedClient(c)}
+                    className={`cursor-pointer transition-colors ${
+                      isSelected ? 'bg-indigo-50/90 border-l-4 border-indigo-600 font-semibold' : 'hover:bg-slate-50'
+                    }`}
+                  >
+                    <td className="px-5 py-4 text-sm font-extrabold text-slate-900 client-name">
+                      {c.name}
+                    </td>
+                    <td className="px-5 py-4 text-sm font-bold text-slate-700 client-company">
+                      {c.company}
+                    </td>
+                    <td className="px-5 py-4 text-xs font-mono font-bold text-indigo-700 client-email">
+                      {c.email}
+                    </td>
+                    <td className="px-5 py-4 text-xs font-black font-mono text-amber-900">
+                      <span className={`px-2 py-0.5 rounded-full border ${
+                        c.totalUnpaidAmount === '₹0'
+                          ? 'bg-slate-100 text-slate-600 border-slate-200'
+                          : 'bg-amber-100 text-amber-900 border-amber-300'
+                      }`}>
+                        {c.totalUnpaidAmount}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4 text-sm text-right">
+                      <button
+                        id={`view-client-${idx}`}
+                        onClick={(e) => { e.stopPropagation(); setSelectedClient(c); }}
+                        className={`px-3 py-1.5 text-xs font-extrabold rounded-xl border transition-all ${
+                          isSelected
+                            ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                            : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
+                        }`}
+                      >
+                        Profile
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
 
         {/* Selected Client Details Card */}
-        <div className="bg-white p-6 rounded-lg shadow border border-gray-100 flex flex-col justify-between" id="client-details">
+        <div className="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border-2 border-slate-200/90 flex flex-col justify-between" id="client-details">
           <div>
-            <div className="flex justify-between items-start mb-4 pb-3 border-b border-gray-100">
+            <div className="flex justify-between items-start mb-5 pb-4 border-b border-slate-200">
               <div>
-                <span className="text-[10px] font-mono font-bold text-[#5B5FEF] bg-indigo-50 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-mono font-black uppercase text-indigo-800 bg-indigo-100 border border-indigo-300 px-2.5 py-0.5 rounded-full">
                   {selectedClient.id}
                 </span>
-                <h2 id="client-name" className="text-xl font-bold text-gray-900 mt-1">
+                <h2 id="client-name" className="text-2xl font-black text-slate-900 mt-1.5 tracking-tight">
                   {selectedClient.name}
                 </h2>
-                <div id="client-company" className="text-sm font-semibold text-gray-600">
+                <div id="client-company" className="text-sm font-bold text-slate-600">
                   {selectedClient.company}
                 </div>
               </div>
-              <span id="client-status" className="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">
+              <span id="client-status" className="text-[11px] font-black px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300">
                 {selectedClient.status}
               </span>
             </div>
 
-            <div className="space-y-3 text-xs text-gray-700">
-              <div>
-                <strong className="text-gray-500 uppercase tracking-wider text-[10px] block mb-0.5">Billing Email:</strong>
-                <span id="client-email" className="font-mono text-sm text-[#5B5FEF] font-bold">
+            <div className="space-y-4 text-xs">
+              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <strong className="text-slate-500 uppercase tracking-wider text-[10px] block mb-1 font-black">
+                  Billing Email
+                </strong>
+                <span id="client-email" className="font-mono text-sm text-indigo-700 font-black">
                   {selectedClient.email}
                 </span>
               </div>
-              <div>
-                <strong className="text-gray-500 uppercase tracking-wider text-[10px] block mb-0.5">Phone:</strong>
-                <span id="client-phone" className="font-medium text-gray-800">
+
+              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <strong className="text-slate-500 uppercase tracking-wider text-[10px] block mb-1 font-black">
+                  Phone
+                </strong>
+                <span id="client-phone" className="font-mono text-sm font-bold text-slate-900">
                   {selectedClient.phone}
                 </span>
               </div>
-              <div>
-                <strong className="text-gray-500 uppercase tracking-wider text-[10px] block mb-0.5">Recent CRM Interaction:</strong>
-                <p id="client-interaction" className="text-gray-700 bg-gray-50 p-2.5 rounded border border-gray-200">
+
+              <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <strong className="text-slate-500 uppercase tracking-wider text-[10px] block mb-1 font-black">
+                  Recent CRM Interaction
+                </strong>
+                <p id="client-interaction" className="text-slate-900 font-semibold bg-white p-2.5 rounded-lg border border-slate-200/80 leading-relaxed">
                   {selectedClient.recentInteraction}
                 </p>
               </div>
-              <div>
-                <strong className="text-gray-500 uppercase tracking-wider text-[10px] block mb-0.5">Unpaid Invoices Ledger:</strong>
-                <div id="client-invoices" className="p-2.5 bg-amber-50 rounded border border-amber-200 text-amber-900 font-medium">
+
+              <div className="p-3 bg-amber-50/80 border-2 border-amber-300/80 rounded-xl">
+                <strong className="text-amber-900 uppercase tracking-wider text-[10px] block mb-1 font-black">
+                  Unpaid Invoices Ledger
+                </strong>
+                <div id="client-invoices" className="p-2.5 bg-white rounded-lg border border-amber-200 text-amber-950 font-bold font-mono">
                   {selectedClient.outstandingInvoices}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 pt-3 border-t border-gray-100 text-[11px] text-gray-500">
-            Simulated CRM Database Record • Verified by Acme Account Operations
+          <div className="mt-6 pt-3 border-t border-slate-200 text-[11px] font-bold text-slate-500 flex items-center justify-between">
+            <span>Verified Acme Account Record</span>
+            <span className="text-emerald-700 font-black">✓ Synchronized</span>
           </div>
         </div>
       </div>
