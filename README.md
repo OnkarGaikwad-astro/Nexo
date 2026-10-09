@@ -63,32 +63,32 @@ When given a complex, multi-system enterprise goal — such as:
 
 ```mermaid
 graph TD
-    User["👤 Human Supervisor"] -->|Goal Intent / Approvals| Console["🖥️ NEXO Web Console\n(Next.js 16 • Port 3000)"]
-    Console -->|REST API / SSE Events Stream| Backend["⚡ FastAPI Autonomous Engine\n(Python 3.11 • Port 8000)"]
+    User["👤 Human Supervisor"] -->|Goal Intent / Approvals| Console["🖥️ NEXO Web Console<br/>(Next.js 16 • Port 3000)"]
+    Console -->|REST API / SSE Events Stream| Backend["⚡ FastAPI Autonomous Engine<br/>(Python 3.11 • Port 8000)"]
     
-    subgraph Cognitive Reasoning Loop
-        Backend --> LLM["🧠 Cognitive Provider\n(Groq Llama 3.3 / Qwen / GPT-4o)"]
-        LLM --> Planner["📋 ReAct Execution Engine\n(Plan, Act, Observe, Adapt)"]
+    subgraph Cognition ["Cognitive Reasoning Loop"]
+        Backend --> LLM["🧠 Multi-Provider LLM<br/>(Groq Llama 3.3 / Qwen / Gemini)"]
+        LLM --> Planner["📋 ReAct Execution Engine<br/>(Plan, Act, Observe, Adapt)"]
     end
     
-    subgraph Execution & Tool Layer
+    subgraph ExecutionLayer ["Execution & Tool Layer"]
         Planner -->|DOM Automation| Playwright["🎭 Playwright Chromium Engine"]
         Planner -->|Forex Rates| FX["💱 Real-Time Foreign Exchange API"]
-        Planner -->|Web Queries| WebSearch["🌐 Tavily / DuckDuckGo Search"]
-        Planner -->|Email Dispatch| Mailer["✉️ Verified SMTP Outbound Relay"]
+        Planner -->|Web Queries| WebSearch["🌐 Live Web Search"]
+        Planner -->|Email Dispatch| Mailer["✉️ Verified Outbound Mailer"]
     end
 
-    subgraph Acme Corporation Sandbox (Port 3001)
+    subgraph AcmeSandbox ["Simulated Acme Enterprise (Port 3001)"]
         Playwright --> DocCenter["📄 Document Center (/documents)"]
         Playwright --> Finance["💳 Finance General Ledger (/finance)"]
         Playwright --> CRM["👥 Client CRM Directory (/crm)"]
         Playwright --> SimEmail["✉️ Corporate Email Portal (/email)"]
     end
     
-    subgraph Safety & Verification Ledger
-        Planner -->|Outbound Send Gate| HITL{"🛡️ Supervisor Gate\n(Approval Required)"}
+    subgraph SafetyLedger ["Safety & Verification Ledger"]
+        Planner -->|Outbound Send Gate| HITL{"🛡️ Supervisor Gate (HITL)"}
         HITL -->|Pending Sign-off| Console
-        Playwright -->|Receipts & Confirmation IDs| Ledger["📁 Verifiable Evidence Ledger\n(Cryptographic SHA-256)"]
+        Playwright -->|Receipts & Confirmation IDs| Ledger["📁 Verifiable Evidence Ledger<br/>(Cryptographic SHA-256)"]
         Ledger -->|Live Telemetry| Console
     end
 ```
