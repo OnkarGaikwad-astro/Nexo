@@ -16,7 +16,7 @@
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript" alt="TypeScript" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind-CSS%20v4-38B2AC?logo=tailwind-css" alt="Tailwind" /></a>
   <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker" alt="Docker" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="https://github.com/OnkarGaikwad-astro"><img src="https://img.shields.io/badge/Author-Onkar%20Gaikwad-7928CA?logo=github" alt="Author: Onkar Gaikwad" /></a>
 </p>
 
 [Overview](#-overview) • [System Specifications](#-system-specifications) • [Architecture](#-architecture) • [Core Capabilities](#-core-capabilities) • [Quickstart & Setup](#-quickstart--setup-guide) • [Docker Deployment](#-docker-compose-deployment) • [Environment Config](#-environment-variables) • [API & SSE Specs](#-api--sse-specifications) • [Testing](#-testing--verification)
@@ -490,6 +490,10 @@ NEXO incorporates enterprise security standards by design:
 
 ---
 
-## 📜 License
+<div align="center">
 
-This project is licensed under the [MIT License](LICENSE).
+Crafted with ❤️ by **Onkar Gaikwad**
+
+*NEXO • Autonomous Enterprise AI Task Worker*
+
+</div>
